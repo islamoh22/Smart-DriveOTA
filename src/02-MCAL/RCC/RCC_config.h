@@ -1,32 +1,25 @@
-/***************************************************************************/
-/* Author : Menna Mohamed                                                  */
-/* Date   : 22 nov 2023                                                    */
-/* version: v01                                                            */
-/***************************************************************************/
-#ifndef_RCC_config_h
-#define_RCC_config_h
-
-/* Options: RCC_HSE_CRYSTAL
-            RCC_HSE_RC 
-            RCC_HSI
-            RCC_PLL        */			
-#define RCC_COLOCK_TYPE    RCC_HSE_CRYSTAL
+/*=================================================================================*/
+/*=================================================================================*/
 
 
-/* Options:   RCC_PLL_IN_HSI_DIV_2
-              RCC_PLL_IN_HSE_DIV_2
-			  RCC_PLL_IN_HSE        */
-			  
-/* Note : Select value only if you have PLL as input clock sourse */
-#if RCC CLOCK_TYPE == RCC_PLL
-#define RCC_PLL_INPUT	   RCC_PLL_IN_HSE_DIV_2		  
-#endif
+/* File Gaurd*/
+#ifndef RCC_CONFIG_H
+#define RCC_CONFIG_H
 
-
-/* Options 2 to 16 */
-/* Note : Select value only if you have PLL as input clock sourse */
-#if RCC CLOCK_TYPE == RCC_PLL
-#define RCC_PLL_MUL_VAL
+/*=======================================*/
+/*=========  Configration List   ========*/
+/*=== { HSI , HSE_OSC , HSE_RC , PLL } ==*/
+/*=======================================*/
+#define RCC_CLOCK_SOURCE    HSI
+/*=======================================*/
+/*=======================================*/
+/*=========    AHB Prescaller    ========*/
+#define system_clock_divided_by_2           0
+#define system_clock_divided_by_4           1
+#define system_clock_divided_by_8           2
+/*=======================================*/
+#define AHB_PRESCALLER      system_clock_divided_by_2
+/*=======================================*/
 
 
 #endif

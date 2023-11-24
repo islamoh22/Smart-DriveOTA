@@ -18,11 +18,8 @@
 /*******************    GPIO_voidSetPinSpeed           *******************/
 /*******************    GPIO_voidSetPinValueNonAtomic  *******************/
 /*******************    GPIO_u8GetPinValue             *******************/
-/*******************    GPIO_voidPortInit              *******************/
-/*******************    GPIO_voidSetPortMode           *******************/
-/*******************    GPIO_voidSetPortType           *******************/
-/*******************    GPIO_voidSetPortSpeed          *******************/
 /*=======================================================================*/
+
 
 /************************************************************************************************/
 /* Function Name : MGPIO_voidPinInit                                                            */
@@ -34,7 +31,7 @@
 /* Fun. Argument5: Copy_u8Speed {LOW_SPEED,MEDIUM_SPEED,HIGH_SPEED}                             */
 /* Fun. Return   : void                                                                         */
 /************************************************************************************************/
-void MGPIO_voidPinInit(u8 Copy_u8PortID ,u8 Copy_u8PinID ,u8 Copy_u8Mode ,u8 Copy_u8Type ,u8 Copy_u8Speed);
+void MGPIO_voidPinInit(u8 Copy_u8PortID ,u8 Copy_u8PinID ,u8 Copy_u8Mode ,u8 Copy_u8Type ,u8 Copy_u8Speed,u8 Copy_u8AFNumber);
 
 /************************************************************************************************/
 /* Function Name : MGPIO_voidSetPinMode                                                          */
@@ -66,16 +63,7 @@ void MGPIO_voidSetPinType(u8 Copy_u8PortID , u8 Copy_u8PinID , u8 Copy_u8Type );
 /************************************************************************************************/
 void MGPIO_voidSetPinSpeed(u8 Copy_u8PortID , u8 Copy_u8PinID , u8 Copy_u8Speed );
 
-/************************************************************************************************/
-/* Function Name : MGPIO_voidPortInit                                                           */
-/* Description   : Initialization of Port {Mode,Type,Speed}                                     */
-/* Fun. Argument1: Copy_u8PortID { GPIOA,GPIOB,GPIOC }                                          */
-/* Fun. Argument2: Copy_u8Mode { OUTPUT , INPUT , ALTERNATE , ANALOG }                          */
-/* Fun. Argument3: Copy_u8Type  {PUSH_PULL,OPEN_DRAIN,NO_PULL_UP_DOWM,PULL_UP,PULL_DOWN }       */
-/* Fun. Argument4: Copy_u8Speed {LOW_SPEED,MEDIUM_SPEED,HIGH_SPEED}                             */
-/* Fun. Return   : void                                                                         */
-/************************************************************************************************/
-void MGPIO_voidPortInit(u8 Copy_u8PortID ,u8 Copy_u8Mode ,u8 Copy_u8Type ,u8 Copy_u8Speed);
+
 
 /******************************************************************************************/
 /* Function Name : MGPIO_voidSetPinValueNonAtomic                                         */
@@ -96,32 +84,9 @@ void MGPIO_voidSetPinValueNonAtomic(u8 Copy_u8PortID , u8 Copy_u8PinID , u8 Copy
 /****************************************************************************/
 u8 MGPIO_u8GetPinValue(u8 Copy_u8PortID , u8 Copy_u8PinID );
 
-/************************************************************************************************/
-/* Function Name : MGPIO_voidSetPortMode                                                        */
-/* Description   : Initialization of Port {Mode}                                                */
-/* Fun. Argument1: Copy_u8PortID { GPIOA,GPIOB,GPIOC }                                          */
-/* Fun. Argument2: Copy_u8Mode { OUTPUT , INPUT , ALTERNATE , ANALOG }                          */
-/* Fun. Return   : void                                                                         */
-/************************************************************************************************/
-void MGPIO_voidSetPortMode(u8 Copy_u8PortID , u8 Copy_u8Mode );
 
-/************************************************************************************************/
-/* Function Name : MGPIO_voidSetPortType                                                        */
-/* Description   : Initialization of Port {Type}                                                */
-/* Fun. Argument1: Copy_u8PortID { GPIOA,GPIOB,GPIOC }                                          */
-/* Fun. Argument2: Copy_u8Type  {PUSH_PULL,OPEN_DRAIN,NO_PULL_UP_DOWM,PULL_UP,PULL_DOWN }       */
-/* Fun. Return   : void                                                                         */
-/************************************************************************************************/
-void MGPIO_voidSetPortType(u8 Copy_u8PortID , u8 Copy_u8Type );
 
-/************************************************************************************************/
-/* Function Name : MGPIO_voidSetPortSpeed                                                       */
-/* Description   : Initialization of Port {Speed}                                               */
-/* Fun. Argument1: Copy_u8PortID { GPIOA,GPIOB,GPIOC }                                          */
-/* Fun. Argument2: Copy_u8Speed  {LOW_SPEED,MEDIUM_SPEED,HIGH_SPEED}                            */
-/* Fun. Return   : void                                                                         */
-/************************************************************************************************/
-void MGPIO_voidSetPortSpeed(u8 Copy_u8PortID , u8 Copy_u8Speed );
+void MGPIO_voidSetAlternativeFunction (u8 Copy_u8PortID ,u8 Copy_u8PinID ,u8 Copy_u8AFNumber );
 
 /*===============================*/
 #define     INPUT               0
@@ -164,7 +129,28 @@ void MGPIO_voidSetPortSpeed(u8 Copy_u8PortID , u8 Copy_u8Speed );
 #define     LOW                 0
 #define     HIGH                1
 /*===============================*/
+/*===============================*/
+#define     AF0                0
+#define     AF1                1
+#define     AF2                2
+#define     AF3                3
+#define     AF4                4
+#define     AF5                5
+#define     AF6                6
+#define     AF7                7
+#define     AF8                8
+#define     AF9                9
+#define     AF10               10
+#define     AF11               11
+#define     AF12               12
+#define     AF13               13
+#define     AF14               14
+#define     AF15               15
 
+//////////////////
+/////////
+#define     SET                 0
+#define     RST                 1
 
 
 #endif /* GPIO_INTERFACE_H_ */

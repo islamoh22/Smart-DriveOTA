@@ -1,89 +1,126 @@
-/***************************************************************************/
-/* Author : Menna Mohamed                                                  */
-/* Date   : 22 nov 2023                                                    */
-/* version: v01                                                            */
-/***************************************************************************/
+/*=================================================================================*/
+/*  File        : RCC_Program.c                                                    */
+
+/*=================================================================================*/
+
+
+
+/*==========================================*/
+/* Include Header Files From include Folder */
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
+/*==========================================*/
+#include "RCC_Interface.h"
+#include "RCC_Private.h"
+#include "RCC_Config.h"
+/*==========================================*/
 
-#include  "RCC_interface.h"
-#include  "RCC_private.h"
-#incltude "RCC_config.h"
+/*======================================================================================================================*/
+/*====================================     A.BAHAA RCC Functions Implementation      ===================================*/
+/*======================================================================================================================*/
+/********************************************    RCC_voidInitSystemClock            *************************************/
+/********************************************    RCC_voidEnablePeripheralClock      *************************************/ 
+/********************************************    RCC_voidDisablePeripheralClock     *************************************/ 
+/*======================================================================================================================*/
 
-void RCC_voidInitSysClock(void)
+/************************************************************************************************/
+/* Function Name : RCC_voidInitSystemClock                                                      */
+/* Description : Initilization of RCC to initialize System clock                                */
+/* Fun. Return : void                                                                           */
+/************************************************************************************************/
+void MRCC_voidInitSystemClock (void)
 {
-	#if   RCC_CLOCK_TYPE == RCC_HSE_CRYTSAL
-	    RCC_CR   = 0x00010000; /*Enable HSE with no bypass*/
-		RCC_CFGR = 0x00000001;
-	#elif RCC_CLOCK_TYPE == RCC_HSE_RC
-	    RCC_CR   = 0x00050000; /*Enable HSE with bypass*/
-		RCC_CFGR = 0x00000001;
-	#elif RCC_CLOCK_TYPE == RCC_HSI
-	    RCC_CR   = 0x00000081;  /* Enable HSI + Trimming = 0 */
-		RCC_CFGR = 0x00000000;
-	
-	#elif RCC_CLOCK_TYPE == PLL
-	    #if RCC_PLL_INPUT == RCC_PLL_IN_HSI_DIV_2
-		
-        #elif RCC_PLL_INPUT == RCC_PLL_IN_HSE_DIV_2	
-        
-        #elif RCC_PLL_INPUT == RCC_PLL_IN_HSE
+    #if  (RCC_CLOCK_SOURCE == HSI) 
+        SET_BIT(RCC_CR,0U);                  // Enable HSI (Set HSI BIT) 
+        /* Select HSI as Sys CLOCK Source */
+        CLR_BIT(RCC_CFGR,0U);
+        CLR_BIT(RCC_CFGR,1U);
+    #elif (RCC_CLOCK_SOURCE == HSE_OSC) 
+        CLR_BIT(RCC_CR,18U);               // Not bypassed
+        SET_BIT(RCC_CR,16U);                 // Enable HSE (Set HSE BIT)
+        /* Select HSE as System CLOCK Source */
+        SET_BIT(RCC_CFGR,0U);
+        CLR_BIT(RCC_CFGR,1U);
+    #elif  (RCC_CLOCK_SOURCE == HSE_RC) 
+        SET_BIT(RCC_CR,18U);                 // bypassed
+        SET_BIT(RCC_CR,16U);                 // Enable HSE (Set HSE BIT)
+        /* Select HSE as System CLOCK Source */
+        SET_BIT(RCC_CFGR,0U);
+        CLR_BIT(RCC_CFGR,1U);
+    #elif  (RCC_CLOCK_SOURCE == PLL) 
 
-        #endif		
-		
-	
-	#else
-		#error("You choosed wrong type")
-	#endif
-	
+    #else
+        #error Invalid Clock Source 
+    #endif
+
+    #if( AHB_PRESCALLER ==  system_clock_divided_by_2 )
+        CLR_BIT(RCC_CFGR,4);
+        CLR_BIT(RCC_CFGR,5);
+        CLR_BIT(RCC_CFGR,6);
+          SET_BIT(RCC_CFGR,7);
+    #elif ( AHB_PRESCALLER == system_clock_divided_by_4 )
+          SET_BIT(RCC_CFGR,4);
+          CLR_BIT(RCC_CFGR,5);
+          CLR_BIT(RCC_CFGR,6);
+          SET_BIT(RCC_CFGR,7);
+    #elif ( AHB_PRESCALLER == system_clock_divided_by_8 )
+          CLR_BIT(RCC_CFGR,4);
+          SET_BIT(RCC_CFGR,5);
+          CLR_BIT(RCC_CFGR,6);
+          SET_BIT(RCC_CFGR,7);
+    #endif
 }
 
-
-void RCC_voidEnableClock(u8 copy_u8BusId, u8 Copy_u8PerId)
+/************************************************************************************************/
+/* Function Name : RCC_voidEnablePeripheralClock                                                */
+/* Description : Enable clock source to specific Bus and spesific Peripheral                    */
+/* Fun. Argument1: Copy_u8BusID { AHB1,AHB2,APB1,APB2 }                                         */
+/* Fun. Argument2: Copy_u8PeripheralID { from 0 -> 32 according to Pheripheral }                */
+/* Fun. Return : void                                                                           */
+/************************************************************************************************/
+void MRCC_voidEnablePeripheralClock ( u8 Copy_u8BusID , u8 Copy_u8PeripheralID)
 {
-
-if (Copy_u8PerId <= 31)
-{
-    switch (copy_u8BusId)
-	{
-		case RCC_AHB  :  SET_BIT(RCC_AHBENR   ,Copy_u8PerId);  break;
-		case RCC_APB1 :  SET_BIT(RCC_APB1ENR  ,Copy_u8PerId);  break; 
-		case RCC_APB2 :  SET_BIT(RCC_APB2ENBR ,Copy_u8PerId);  break;
-		
-	}
+    /* Input Validation */
+    if( Copy_u8PeripheralID > 31 )
+    {
+        // Nothing to be Done
+    }
+    else
+    {
+        switch(Copy_u8BusID)
+        {
+            case AHB1 :   SET_BIT(RCC_AHB1ENR,Copy_u8PeripheralID);   break;
+            case AHB2 :   SET_BIT(RCC_AHB2ENR,Copy_u8PeripheralID);   break;
+            case APB1 :   SET_BIT(RCC_APB1ENR,Copy_u8PeripheralID);   break;
+            case APB2 :   SET_BIT(RCC_APB2ENR,Copy_u8PeripheralID);   break;
+            default :                                                 break;
+        }
+    }
 }
-else
+
+/************************************************************************************************/
+/* Function Name : RCC_voidDisablePeripheralClock                                               */
+/* Description : Disable clock source to specific Bus and spesific Peripheral                   */
+/* Fun. Argument1: Copy_u8BusID { AHB1,AHB2,APB1,APB2 }                                         */
+/* Fun. Argument2: Copy_u8PeripheralID { from 0 -> 32 according to Pheripheral }                */
+/* Fun. Return : void                                                                           */
+/************************************************************************************************/
+void MRCC_voidDisablePeripheralClock ( u8 Copy_u8BusID , u8 Copy_u8PeripheralID)
 {
-/* Return Error */
-
-
-
-
+    /* Input Validation */
+    if( Copy_u8PeripheralID > 31 )
+    {
+        // Nothing to be Done
+    }
+    else
+    {
+        switch(Copy_u8BusID)
+        {
+            case AHB1 :   CLR_BIT(RCC_AHB1ENR,Copy_u8PeripheralID);   break;
+            case AHB2 :   CLR_BIT(RCC_AHB2ENR,Copy_u8PeripheralID);   break;
+            case APB1 :   CLR_BIT(RCC_APB1ENR,Copy_u8PeripheralID);   break;
+            case APB2 :   CLR_BIT(RCC_APB2ENR,Copy_u8PeripheralID);   break;
+            default :                                                   break;
+        }
+    }
 }
-}	
-
-void RCC_voidDisableClock(u8 copy_u8BusId, u8 Copy_u8PerId)
-{
-
-if (Copy_u8PerId <= 31)
-{
-    switch (copy_u8BusId)
-	{
-		case RCC_AHB  :  CLR_BIT(RCC_AHBENR   ,Copy_u8PerId);  break;
-		case RCC_APB1 :  CLR_BIT(RCC_APB1ENR  ,Copy_u8PerId);  break; 
-		case RCC_APB2 :  CLR_BIT(RCC_APB2ENBR ,Copy_u8PerId);  break;
-		
-	}
-}
-else
-{
-/* Return Error */
-
-
-
-
-}
-}	
-
-
- 

@@ -5,8 +5,8 @@
 /*  Date        : 22/11/2023                                                       */
 /*=================================================================================*/
 
-#include "../LIB/STD_TYPES.h"
-#include "../LIB/BIT_MATH.h"
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
 
 #include "GPIO_Interface.h"
 #include "GPIO_Private.h"
@@ -21,10 +21,6 @@
 /*******************    GPIO_voidSetPinSpeed           *******************/
 /*******************    GPIO_voidSetPinValueNonAtomic  *******************/
 /*******************    GPIO_u8GetPinValue             *******************/
-/*******************    GPIO_voidPortInit              *******************/
-/*******************    GPIO_voidSetPortMode           *******************/
-/*******************    GPIO_voidSetPortType           *******************/
-/*******************    GPIO_voidSetPortSpeed          *******************/
 /*=======================================================================*/
 
 /************************************************************************************************/
@@ -37,10 +33,22 @@
 /* Fun. Argument5: Copy_u8Speed {LOW_SPEED,MEDIUM_SPEED,HIGH_SPEED}                             */
 /* Fun. Return   : void                                                                         */
 /************************************************************************************************/
-void MGPIO_voidPinInit(u8 Copy_u8PortID ,u8 Copy_u8PinID ,u8 Copy_u8Mode ,u8 Copy_u8Type ,u8 Copy_u8Speed){
-	MGPIO_voidSetPinMode(Copy_u8PortID,Copy_u8PinID,Copy_u8Mode);
-	MGPIO_voidSetPinType(Copy_u8PortID,Copy_u8PinID,Copy_u8Type);
-	MGPIO_voidSetPinSpeed(Copy_u8PortID,Copy_u8PinID,Copy_u8Speed);
+void MGPIO_voidPinInit(u8 Copy_u8PortID ,u8 Copy_u8PinID ,u8 Copy_u8Mode ,u8 Copy_u8Type ,u8 Copy_u8Speed,u8 Copy_u8AFNumber)
+{
+    /* i/p Validation */
+    if ( Copy_u8PortID > GPIOC || Copy_u8PinID > PIN15 || Copy_u8Mode > ANALOG || Copy_u8Type > PULL_DOWN || Copy_u8Speed >  HIGH_SPEED )
+    {
+        /* Do Nothing */
+    }
+    else
+    {
+        MGPIO_voidSetPinMode (Copy_u8PortID , Copy_u8PinID , Copy_u8Mode );
+        MGPIO_voidSetPinType (Copy_u8PortID , Copy_u8PinID , Copy_u8Type );
+        if ( Copy_u8Mode == OUTPUT )
+        {MGPIO_voidSetPinSpeed(Copy_u8PortID , Copy_u8PinID , Copy_u8Speed);}
+        if( Copy_u8Mode == ALTERNATE )
+        {MGPIO_voidSetAlternativeFunction(Copy_u8PortID,Copy_u8PinID,Copy_u8AFNumber);}
+    }
 }
 
 /************************************************************************************************/
@@ -286,7 +294,7 @@ void MGPIO_voidSetPinSpeed(u8 Copy_u8PortID , u8 Copy_u8PinID , u8 Copy_u8Speed 
 			}
 			break;
 	   	 }
-		 default: break;
+
 }
 
 /******************************************************************************************/
@@ -299,7 +307,7 @@ void MGPIO_voidSetPinSpeed(u8 Copy_u8PortID , u8 Copy_u8PinID , u8 Copy_u8Speed 
 /******************************************************************************************/
 void MGPIO_voidSetPinValueNonAtomic(u8 Copy_u8PortID , u8 Copy_u8PinID , u8 Copy_u8Value ){
 	switch(Copy_u8Value){
-		case HIGH:
+		case LOW:
 			switch(Copy_u8PortID){
 				case GPIOA: CLR_BIT(GPIOA_ODR,Copy_u8PinID); break;
 				case GPIOB: CLR_BIT(GPIOB_ODR,Copy_u8PinID); break;
@@ -307,7 +315,7 @@ void MGPIO_voidSetPinValueNonAtomic(u8 Copy_u8PortID , u8 Copy_u8PinID , u8 Copy
 				default : break;
 			}
 			break;
-		case LOW:
+		case HIGH:
 			switch(Copy_u8PortID){
 				case GPIOA: SET_BIT(GPIOA_ODR,Copy_u8PinID); break;
 				case GPIOB: SET_BIT(GPIOB_ODR,Copy_u8PinID); break;
@@ -335,54 +343,90 @@ u8 MGPIO_u8GetPinValue(u8 Copy_u8PortID , u8 Copy_u8PinID ){
 	return Local_u8Variable;
 }
 
-/************************************************************************************************/
-/* Function Name : MGPIO_voidPortInit                                                           */
-/* Description   : Initialization of Port {Mode,Type,Speed}                                     */
-/* Fun. Argument1: Copy_u8PortID { GPIOA,GPIOB,GPIOC }                                          */
-/* Fun. Argument2: Copy_u8Mode { OUTPUT , INPUT , ALTERNATE , ANALOG }                          */
-/* Fun. Argument3: Copy_u8Type  {PUSH_PULL,OPEN_DRAIN,NO_PULL_UP_DOWM,PULL_UP,PULL_DOWN }       */
-/* Fun. Argument4: Copy_u8Speed {LOW_SPEED,MEDIUM_SPEED,HIGH_SPEED}                             */
-/* Fun. Return   : void                                                                         */
-/************************************************************************************************/
-void MGPIO_voidPortInit(u8 Copy_u8PortID ,u8 Copy_u8Mode ,u8 Copy_u8Type ,u8 Copy_u8Speed){
-	MGPIO_voidSetPortMode(Copy_u8PortID,Copy_u8Mode);
-	MGPIO_voidSetPortSpeed(Copy_u8PortID,Copy_u8Speed);
-	MGPIO_voidSetPortType(Copy_u8PortID,Copy_u8Type);
+
+void MGPIO_voidSetAlternativeFunction (u8 Copy_u8PortID ,u8 Copy_u8PinID ,u8 Copy_u8AFNumber )
+{
+    if (Copy_u8PinID < 8)
+    {
+        switch(Copy_u8PortID)
+        {
+            case GPIOA :
+            	        GPIOA_AFRL &= ~(0b1111 << (Copy_u8PinID*4));
+            	        GPIOA_AFRL |= (Copy_u8AFNumber << (Copy_u8PinID*4));
+                        break;
+            case GPIOB :
+            	        GPIOB_AFRL &= ~(0b1111 << (Copy_u8PinID*4));
+            	        GPIOB_AFRL |= (Copy_u8AFNumber << (Copy_u8PinID*4));
+                        break;
+            case GPIOC :
+            	        GPIOC_AFRL &= ~(0b1111 << (Copy_u8PinID*4));
+            	        GPIOC_AFRL |= (Copy_u8AFNumber << (Copy_u8PinID*4));
+                        break;
+            default :   break;
+        }
+    }
+    else if ( Copy_u8PinID >= 8 && Copy_u8PinID < 16 )
+    {
+        switch(Copy_u8PortID)
+        {
+            case GPIOA :
+            	        GPIOA_AFRH &= ~(0b1111 << ((Copy_u8PinID - 8)*4));
+            	        GPIOA_AFRH |= (Copy_u8AFNumber << ((Copy_u8PinID - 8)*4));
+                        break;
+            case GPIOB :
+            	        GPIOB_AFRH &= ~(0b1111 << ((Copy_u8PinID - 8)*4));
+            	        GPIOB_AFRH |= (Copy_u8AFNumber << ((Copy_u8PinID - 8)*4));
+                        break;
+            case GPIOC :
+            	        GPIOC_AFRH &= ~(0b1111 << ((Copy_u8PinID - 8)*4));
+            	        GPIOC_AFRH |= (Copy_u8AFNumber << ((Copy_u8PinID - 8)*4));
+                        break;
+            default :   break;
+        }
+    }
 }
 
-/************************************************************************************************/
-/* Function Name : MGPIO_voidSetPortMode                                                        */
-/* Description   : Initialization of Port {Mode}                                                */
-/* Fun. Argument1: Copy_u8PortID { GPIOA,GPIOB,GPIOC }                                          */
-/* Fun. Argument2: Copy_u8Mode { OUTPUT , INPUT , ALTERNATE , ANALOG }                          */
-/* Fun. Return   : void                                                                         */
-/************************************************************************************************/
-void MGPIO_voidSetPortMode(u8 Copy_u8PortID , u8 Copy_u8Mode ){
-	for(u8 pin = 0 ; pin < 16 ; pin++ ){
-		MGPIO_voidSetPinMode(Copy_u8PortID,pin,Copy_u8Mode);
-	}
-}
-/************************************************************************************************/
-/* Function Name : MGPIO_voidSetPortType                                                        */
-/* Description   : Initialization of Port {Type}                                                */
-/* Fun. Argument1: Copy_u8PortID { GPIOA,GPIOB,GPIOC }                                          */
-/* Fun. Argument2: Copy_u8Type  {PUSH_PULL,OPEN_DRAIN,NO_PULL_UP_DOWM,PULL_UP,PULL_DOWN }       */
-/* Fun. Return   : void                                                                         */
-/************************************************************************************************/
-void MGPIO_voidSetPortType(u8 Copy_u8PortID , u8 Copy_u8Type ){
-	for(u8 pin = 0 ; pin < 16 ; pin++ ){
-		MGPIO_voidSetPinType(Copy_u8PortID,pin,Copy_u8Type);
-	}
-}
-/************************************************************************************************/
-/* Function Name : MGPIO_voidSetPortSpeed                                                       */
-/* Description   : Initialization of Port {Speed}                                               */
-/* Fun. Argument1: Copy_u8PortID { GPIOA,GPIOB,GPIOC }                                          */
-/* Fun. Argument2: Copy_u8Speed  {LOW_SPEED,MEDIUM_SPEED,HIGH_SPEED}                            */
-/* Fun. Return   : void                                                                         */
-/************************************************************************************************/
-void MGPIO_voidSetPortSpeed(u8 Copy_u8PortID , u8 Copy_u8Speed ){
-	for(u8 pin = 0 ; pin < 16 ; pin++ ){
-			MGPIO_voidSetPinSpeed(Copy_u8PortID,pin,Copy_u8Speed);
-		}
+
+
+
+
+
+
+////////////
+
+
+
+
+void GPIO_voidSetPinValueAtomic(u8 Copy_u8PortID , u8 Copy_u8PinID , u8 Copy_u8SenseLevel )
+{
+    /* i/p Validation */
+    if ( Copy_u8SenseLevel > RST || Copy_u8PortID > GPIOC || Copy_u8PinID > PIN15 )
+    {
+        /* Do Nothing */
+    }
+    else
+    {
+        switch(Copy_u8SenseLevel)
+        {
+            case SET :
+                        switch (Copy_u8PortID)
+                        {
+                            case GPIOA :    GPIOA_BSRR = (1<<Copy_u8PinID);     break;
+                            case GPIOB :    GPIOB_BSRR = (1<<Copy_u8PinID);     break;
+                            case GPIOC :    GPIOC_BSRR = (1<<Copy_u8PinID);     break;
+                            default    :                                             break;
+                        }
+                        break;
+            case RST :
+                        switch (Copy_u8PortID)
+                        {
+                            case GPIOA :    GPIOA_BSRR = (1<<(Copy_u8PinID+16));     break;
+                            case GPIOB :    GPIOB_BSRR = (1<<(Copy_u8PinID+16));     break;
+                            case GPIOC :    GPIOC_BSRR = (1<<(Copy_u8PinID+16));     break;
+                            default    :                                                  break;
+                        }
+                        break;
+            default :   break;
+        }
+    }
 }
