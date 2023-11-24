@@ -15,13 +15,12 @@
 #include "RCC_Config.h"
 /*==========================================*/
 
-/*======================================================================================================================*/
-/*====================================     A.BAHAA RCC Functions Implementation      ===================================*/
+
 /*======================================================================================================================*/
 /********************************************    RCC_voidInitSystemClock            *************************************/
 /********************************************    RCC_voidEnablePeripheralClock      *************************************/ 
 /********************************************    RCC_voidDisablePeripheralClock     *************************************/ 
-/*======================================================================================================================*/
+
 
 /************************************************************************************************/
 /* Function Name : RCC_voidInitSystemClock                                                      */
@@ -73,9 +72,9 @@ void MRCC_voidInitSystemClock (void)
 
 /************************************************************************************************/
 /* Function Name : RCC_voidEnablePeripheralClock                                                */
-/* Description : Enable clock source to specific Bus and spesific Peripheral                    */
+/* Description : Enable clock source to specific Bus and specific Peripheral                    */
 /* Fun. Argument1: Copy_u8BusID { AHB1,AHB2,APB1,APB2 }                                         */
-/* Fun. Argument2: Copy_u8PeripheralID { from 0 -> 32 according to Pheripheral }                */
+/* Fun. Argument2: Copy_u8PeripheralID { from 0 -> 32 according to Peripheral }                */
 /* Fun. Return : void                                                                           */
 /************************************************************************************************/
 void MRCC_voidEnablePeripheralClock ( u8 Copy_u8BusID , u8 Copy_u8PeripheralID)
@@ -100,9 +99,9 @@ void MRCC_voidEnablePeripheralClock ( u8 Copy_u8BusID , u8 Copy_u8PeripheralID)
 
 /************************************************************************************************/
 /* Function Name : RCC_voidDisablePeripheralClock                                               */
-/* Description : Disable clock source to specific Bus and spesific Peripheral                   */
+/* Description : Disable clock source to specific Bus and specific Peripheral                   */
 /* Fun. Argument1: Copy_u8BusID { AHB1,AHB2,APB1,APB2 }                                         */
-/* Fun. Argument2: Copy_u8PeripheralID { from 0 -> 32 according to Pheripheral }                */
+/* Fun. Argument2: Copy_u8PeripheralID { from 0 -> 32 according to Peripheral }                */
 /* Fun. Return : void                                                                           */
 /************************************************************************************************/
 void MRCC_voidDisablePeripheralClock ( u8 Copy_u8BusID , u8 Copy_u8PeripheralID)

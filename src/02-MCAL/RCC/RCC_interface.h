@@ -8,33 +8,32 @@
 /*  mail        : abahaa14842@gmil.com                                             */
 /*=================================================================================*/
 
-/* File Gaurd*/
+/* File Guard*/
 #ifndef RCC_INTERFACE_H
 #define RCC_INTERFACE_H
 
 /*======================================================================================================================*/
-/*====================================       A.BAHAA RCC Functions Prototypes        ===================================*/
 /*======================================================================================================================*/
 
 /************************************************************************************************/
 /* Function Name : MRCC_voidInitSystemClock                                                      */
-/* Description : Initilization of RCC to initialize System clock                                */
+/* Description : Initialization of RCC to initialize System clock                                */
 /* Fun. Return : void                                                                           */
 /************************************************************************************************/
 void MRCC_voidInitSystemClock (void);
 
 /************************************************************************************************/
 /* Function Name : MRCC_voidEnablePeripheralClock                                                */
-/* Description : Enable clock source to specific Bus and spesific Peripheral                    */
+/* Description : Enable clock source to specific Bus and specific Peripheral                    */
 /* Fun. Argument1: Copy_u8BusID { AHB1,AHB2,APB1,APB2 }                                         */
-/* Fun. Argument2: Copy_u8PeripheralID { from 0 -> 32 according to Pheripheral }                */
+/* Fun. Argument2: Copy_u8PeripheralID { from 0 -> 32 according to Peripheral }                */
 /* Fun. Return : void                                                                           */
 /************************************************************************************************/
 void MRCC_voidEnablePeripheralClock ( u8 Copy_u8BusID , u8 Copy_u8PeripheralClock);
 
 /************************************************************************************************/
 /* Function Name : MRCC_voidDisablePeripheralClock                                               */
-/* Description : Disable clock source to specific Bus and spesific Peripheral                   */
+/* Description : Disable clock source to specific Bus and specific Peripheral                   */
 /* Fun. Argument1: Copy_u8BusID { AHB1,AHB2,APB1,APB2 }                                         */
 /* Fun. Argument2: Copy_u8PeripheralID { from 0 -> 32 according to Pheripheral }                */
 /* Fun. Return : void                                                                           */
@@ -42,7 +41,6 @@ void MRCC_voidEnablePeripheralClock ( u8 Copy_u8BusID , u8 Copy_u8PeripheralCloc
 void MRCC_voidDisablePeripheralClock ( u8 Copy_u8BusID , u8 Copy_u8PeripheralClock);
 
 /*====================================================================================================*/
-/*=================================     A.BAHAA RCC User Macros       ================================*/
 /*====================================================================================================*/
 /*=======================================*/
 /*============     Bus ID     ===========*/
