@@ -1,32 +1,46 @@
 /************************************************/
 /*	Author	:	Eslam Mohamed                   */
-/*	Date	:	21/11/2023                      */
-/*	Version	:	V01                             */
+/*	Date	:	26/11/2023                      */
+/*	Version	:	V02                            */
 /************************************************/
 
 #ifndef UART_INTERFACE_H
 #define UART_INTERFACE_H
 
-/* Defining Macros */
+/*============================================*/
+/*============ 	 UART BAUDRATES   ============*/
+/*============================================*/
+typedef enum{
+    B_1200   = 0x44505400,
+    B_2400   = 0x43d05800,
+    B_9600   = 0x341,
+    B_19200  = 0x42504000,
+    B_38400  = 0x41d08000,
+    B_57600  = 0x418b0000,
+    B_115200 = 0x410b0000
+}u_BaudRate_t;
+/*=============================================*/
+/*======== 	 USART Register Structure   =======*/
+/*=============================================*/
+typedef struct{
+	volatile u32 SR;
+	volatile u32 DR;
+	volatile u32 BRR;
+	volatile u32 CR1;
+	volatile u32 CR2;
+	volatile u32 CR3;
+	volatile u32 GTPR;
+}USART_t;
+/*=============================================*/
+/*=====   The USART Structure Pointer 	=======*/
+/*=============================================*/
+#define 	UART1 		((USART_t *)0x40011000)
+#define 	UART2 		((USART_t *)0x40004400)
+#define 	UART6 		((USART_t *)0x40011400)
 
-#define USART_U8_8_BIT_WORD					0
-#define USART_U8_9_BIT_WORD					1
 
-#define USART_U8_PARITY_DISABLED			0
-#define USART_U8_PARITY_ENABLED				1
-
-#define USART_U8_EVEN_PARITY				0
-#define USART_U8_ODD_PARITY					1
-
-#define USART_U8_PE_DISABLED				0
-#define USART_U8_PE_ENABLED					1
-
-
-/*******/
-
-
-void	MUSART1_voidInit(void);
-void	MUSART1_voidTransmit(u8 arr[]);
-u8		MUSART1_u8Recieve(void);
+void	MUSART1_voidInit(USART_t *UARTx);
+void	MUSART1_voidTransmit(USART_t *UARTx, u8 arr[]);
+u8		MUSART1_u8Recieve(USART_t *UARTx);
 
 #endif
