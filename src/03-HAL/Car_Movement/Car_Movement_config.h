@@ -8,20 +8,35 @@
 #define _Car_Movement_config_H
 
 
- DCmotor_Type Motor1 =
+
+#define MOTOR1_PORT	GPIOA
+#define MOTOR2_PORT GPIOA
+
+#define IN1_PIN		PIN0
+#define IN2_PIN		PIN1
+
+#define IN3_PIN		PIN2
+#define IN4_PIN		PIN3
+
+ // Initialize motor 1
+DCM_MotorConfiguration Motor1 =
 {
-		.FirstTimerType      = TIM1_TYPE     ,
-		.SecondTimerType     = TIM1_TYPE     ,
-		.FirstChannelNumber  = TIM_CHANNEL_1 ,
-		.SecondChannelNumber = TIM_CHANNEL_2
+    .u8Port			= MOTOR1_PORT	,
+    .u8Pin1 		= IN1_PIN		,
+    .u8Pin2 		= IN2_PIN		,
+	.u8SpeedPin		= TIM_CHANNEL_1		,
+	.u32SpeedRatio	= SPEED_0_PERCENT
 };
- DCmotor_Type Motor3 =
- {
- 		.FirstTimerType      = TIM1_TYPE     ,
- 		.SecondTimerType     = TIM1_TYPE     ,
- 		.FirstChannelNumber  = TIM_CHANNEL_3 ,
- 		.SecondChannelNumber = TIM_CHANNEL_4
- };
+
+// Initialize motor 3
+DCM_MotorConfiguration Motor3 =
+{
+    .u8Port			= MOTOR2_PORT	,
+    .u8Pin1 		= IN3_PIN		,
+    .u8Pin2 		= IN4_PIN		,
+	.u8SpeedPin		= TIM_CHANNEL_1		,
+	.u32SpeedRatio	= SPEED_0_PERCENT
+};
 
 
 

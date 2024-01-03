@@ -7,14 +7,21 @@
 #ifndef HAL_PWM_DCMOTOR_PWM_DCMOTOR_PRIVATE_H_
 #define HAL_PWM_DCMOTOR_PWM_DCMOTOR_PRIVATE_H_
 
-typedef struct
-{
-	u8 FirstTimerType ;
-	u8 FirstChannelNumber ;
-	u8 SecondTimerType ;
-	u8 SecondChannelNumber ;
 
-}DCmotor_Type ;
+
+/**
+ * @def CW
+ * @brief Motor clockwise rotation direction
+ *
+ */
+#define CW (1)
+
+/**
+ * @def CCW
+ * @brief Motor counter-clockwise rotation direction
+ *
+ */
+#define CCW (2)
 
 
 #endif /* HAL_PWM_DCMOTOR_PWM_DCMOTOR_PRIVATE_H_ */

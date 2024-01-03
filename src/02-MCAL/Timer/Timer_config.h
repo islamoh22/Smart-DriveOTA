@@ -40,7 +40,7 @@
         *  ....
         *  65535
     */
-   #define TIM1_PRELOAD_VALUE 0x0f
+   #define TIM1_PRELOAD_VALUE 100
 
    /* Specifies the repetition counter value. Each time the RCR downcounter
       reaches zero, an update event is generated and counting restarts

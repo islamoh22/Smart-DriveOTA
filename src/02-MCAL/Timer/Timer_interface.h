@@ -41,4 +41,26 @@ void MTimer_voidInit (u8 A_u8TimerSelected) ;
 	Function Description : generate the pwm signal
 */
 void MTimer_voidPWM (u8 A_u8TimerSelected , u8 A_u8Channel , u16 A_u16CompareValue) ;
+
+
+void MTimer_voidSetCompareReg1Value( u16 A_u16CCR1_Value );
+
+u16 MTimer_u16GetCaptureReg1Value( void );
+
+void MTimer_voidSetCompareReg2Value( u16 A_u16CCR2_Value ) ;
+
+u16 MTimer_u16GetCaptureReg2Value( void ) ;
+
+void MTimer_voidSetCompareReg3Value( u16 A_u16CCR3_Value ) ;
+
+u16 MTimer_u16GetCaptureReg3Value( void ) ;
+
+void MTimer_voidSetCompareReg4Value( u16 A_u16CCR4_Value ) ;
+
+u16 MTimer_u16GetCaptureReg4Value( void ) ;
+
+
+
+
+
 #endif /* MCAL_TIMER_TIMER_INIT_H_ */

@@ -1703,3 +1703,72 @@ static void MTimer_voidConfigurePWMTIM_5Channel4 (u16 A_u16CompareValue)
 	/* Configure the Output Fast mode */
 	SET_BIT (TIM_5->CCMR2 , TIM2_TO_TIM5_CCMR2_OC4FE_BIT) ;
 }
+
+
+
+void MTimer_voidSetCompareReg1Value( u16 A_u16CCR1_Value )
+{
+
+
+	TIM_1->CCR1 = A_u16CCR1_Value ;
+
+
+}
+
+
+
+u16 MTimer_u16GetCaptureReg1Value( void )
+{
+
+	return TIM_1->CCR1;
+
+}
+
+
+
+void MTimer_voidSetCompareReg2Value( u16 A_u16CCR2_Value )
+{
+
+	TIM_1->CCR2 = A_u16CCR2_Value ;
+}
+
+u16 MTimer_u16GetCaptureReg2Value( void )
+{
+
+	return TIM_1->CCR2 ;
+}
+
+void MTimer_voidSetCompareReg3Value( u16 A_u16CCR3_Value )
+{
+	TIM_1->CCR3 = A_u16CCR3_Value ;
+}
+
+
+
+u16 MTimer_u16GetCaptureReg3Value( void )
+{
+
+	return TIM_1->CCR3 ;
+
+}
+
+
+
+void MTimer_voidSetCompareReg4Value( u16 A_u16CCR4_Value )
+{
+
+	TIM_1->CCR4 = A_u16CCR4_Value ;
+
+}
+
+
+
+u16 MTimer_u16GetCaptureReg4Value( void )
+{
+
+
+	return TIM_1->CCR4 ;
+
+
+}
+

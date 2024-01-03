@@ -16,15 +16,20 @@
 
 void HCarMove_vInit(void);
 
-void HCarMove_vForward(u16 speed);
+void HCarMove_vSpeedRatio( u16 A_u16SpeedRatio );
 
-void HCarMove_vBackward(u16 speed);
+void HCarMove_vForward();
 
-void HCarMove_vRight(u16 speed);
+void HCarMove_vBackward();
 
-void HCarMove_vLeft(u16 speed);
+void HCarMove_vRight();
+
+void HCarMove_vLeft();
 
 void HCarMove_vStop(void);
+
+u32 HCarMove_u32GetCarSpeed( void );
+
 
 
 

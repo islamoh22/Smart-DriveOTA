@@ -36,13 +36,20 @@ void HCarMove_vInit( void )
 /*******************************************************************************************************************/
 /******************************************************************************************************************/
 
+void HCarMove_vSpeedRatio( u16 A_u16SpeedRatio )
+{
 
-void HCarMove_vForward(u16 speed )
+	HDC_MotorSpeedCntrl(  Motor1 , A_u16SpeedRatio ) ;
+	HDC_MotorSpeedCntrl(  Motor3 , A_u16SpeedRatio ) ;
+
+}
+
+void HCarMove_vForward()
 {
 
 	/* IN1 = 1, IN2 = 0, IN3 = 1, IN4 = 0 */
-	HDC_ClockWise  (Motor1 , speed) ;
-	HDC_ClockWise  (Motor3 , speed) ;
+	HDC_ClockWise  ( Motor1 ) ;
+	HDC_ClockWise  ( Motor3 ) ;
 
 
 }
@@ -50,39 +57,39 @@ void HCarMove_vForward(u16 speed )
 /*******************************************************************************************************************/
 /******************************************************************************************************************/
 
-void HCarMove_vBackward(u16 speed )
+void HCarMove_vBackward()
 {
 
 	/* IN1 = 0, IN2 = 1, IN3 = 0, IN4 = 1 */
 
-		HDC_CounterClockWise  (Motor1 , speed) ;
-		HDC_CounterClockWise  (Motor3 , speed) ;
+		HDC_CounterClockWise  ( Motor1 ) ;
+		HDC_CounterClockWise  ( Motor3 ) ;
 
 }
 
 /*******************************************************************************************************************/
 /******************************************************************************************************************/
 
-void HCarMove_vRight( u16 speed )
+void HCarMove_vRight()
 {
 
 	/* IN1 = 1, IN2 = 0, IN3 = 0, IN4 = 0 */
 
-	HDC_ClockWise  (Motor1 , speed) ;
-	HDC_Stop  (Motor3) ;
+	HDC_ClockWise  ( Motor1 ) ;
+	HDC_Stop  ( Motor3 ) ;
 
 }
 
 /*******************************************************************************************************************/
 /******************************************************************************************************************/
 
-void HCarMove_vLeft( u16 speed )
+void HCarMove_vLeft()
 {
 
 	/* IN1 = 0, IN2 = 0, IN3 = 1, IN4 = 0 */
 
-		HDC_ClockWise  (Motor3 , speed) ;
-		HDC_Stop  (Motor1) ;
+		HDC_ClockWise  ( Motor3 ) ;
+		HDC_Stop  ( Motor1 ) ;
 
 
 }
@@ -102,4 +109,16 @@ void HCarMove_vStop( void )
 
 /*******************************************************************************************************************/
 /******************************************************************************************************************/
+
+u32 HCarMove_u32GetCarSpeed( void )
+{
+
+	u32 L_u32SpeedValue = 0 ;
+
+	L_u32SpeedValue = HDC_GetSpeedValue( Motor1 ) ;
+
+	return L_u32SpeedValue ;
+
+}
+
 
