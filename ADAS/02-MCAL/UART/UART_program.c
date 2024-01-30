@@ -1,7 +1,7 @@
 /************************************************/
 /*	Author	:	Eslam Mohamed                   */
-/*	Date	:	21/11/2023                      */
-/*	Version	:	V01                             */
+/*	Date	:	30/1/2024                      */
+/*	Version	:	V02                             */
 /************************************************/
 
 #include "STD_TYPES.h"
@@ -14,7 +14,7 @@
 
 void	MUSART1_voidInit(USART_t *UARTx)
 {
-	/*9600 		BRR = 0x683 */
+	/*115200 		BRR = 0x45 */
 	UARTx->BRR = B_115200;
 	/*
 		1- Enable RX
