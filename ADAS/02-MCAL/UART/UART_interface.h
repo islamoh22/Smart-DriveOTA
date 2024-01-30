@@ -1,7 +1,7 @@
 /************************************************/
 /*	Author	:	Eslam Mohamed                   */
-/*	Date	:	26/11/2023                      */
-/*	Version	:	V02                            */
+/*	Date	:	21/11/2023                      */
+/*	Version	:	V01                             */
 /************************************************/
 
 #ifndef UART_INTERFACE_H
@@ -17,7 +17,7 @@ typedef enum{
     B_19200  = 0x42504000,
     B_38400  = 0x41d08000,
     B_57600  = 0x418b0000,
-    B_115200 = 0x410b0000
+    B_115200 = 0x45
 }u_BaudRate_t;
 /*=============================================*/
 /*======== 	 USART Register Structure   =======*/
@@ -41,6 +41,7 @@ typedef struct{
 
 void	MUSART1_voidInit(USART_t *UARTx);
 void	MUSART1_voidTransmit(USART_t *UARTx, u8 arr[]);
+void	MUSART1_voidTransmitByte( USART_t *UARTx , u8 byte);
 u8		MUSART1_u8Recieve(USART_t *UARTx);
 
 #endif

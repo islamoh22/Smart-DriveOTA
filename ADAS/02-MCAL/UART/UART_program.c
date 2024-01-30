@@ -1,7 +1,7 @@
 /************************************************/
 /*	Author	:	Eslam Mohamed                   */
-/*	Date	:	26/11/2023                      */
-/*	Version	:	V02                            */
+/*	Date	:	21/11/2023                      */
+/*	Version	:	V01                             */
 /************************************************/
 
 #include "STD_TYPES.h"
@@ -14,8 +14,8 @@
 
 void	MUSART1_voidInit(USART_t *UARTx)
 {
-	/*9600 		BRR = 0x341 */
-	UARTx->BRR = B_9600;
+	/*9600 		BRR = 0x683 */
+	UARTx->BRR = B_115200;
 	/*
 		1- Enable RX
 		2- Enable TX
@@ -41,6 +41,13 @@ void	MUSART1_voidTransmit( USART_t *UARTx , u8 arr[])
 		while((GET_BIT((UARTx->SR),6)) == 0);
 		i++;
 	}
+}
+
+void	MUSART1_voidTransmitByte( USART_t *UARTx , u8 byte)
+{
+
+		UARTx->DR = byte;
+
 }
 
 u8		MUSART1_u8Recieve(USART_t *UARTx)
